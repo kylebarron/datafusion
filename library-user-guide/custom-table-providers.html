@@ -33,8 +33,8 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Extending DataFusion’s operators: custom LogicalPlan and Execution Plans" href="extending-operators.html" />
-    <link rel="prev" title="Adding User Defined Functions: Scalar/Window/Aggregate/Table Functions" href="adding-udfs.html" />
+    <link rel="next" title="Table Constraint Enforcement" href="table-constraints.html" />
+    <link rel="prev" title="Spark Compatible Functions" href="functions/spark.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -278,8 +278,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../user-guide/sql/write_options.html">
-     Write Options
+    <a class="reference internal" href="../user-guide/sql/format_options.html">
+     Format Options
     </a>
    </li>
    <li class="toctree-l2">
@@ -292,11 +292,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../user-guide/configs.html">
    Configuration Settings
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../user-guide/runtime_configs.html">
-   Runtime Environment Configurations
   </a>
  </li>
  <li class="toctree-l1">
@@ -319,6 +314,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="index.html">
    Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="upgrading.html">
+   Upgrade Guides
   </a>
  </li>
  <li class="toctree-l1">
@@ -357,14 +357,36 @@
    Catalogs, Schemas, and Tables
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="adding-udfs.html">
-   Adding User Defined Functions: Scalar/Window/Aggregate/Table Functions
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="functions/index.html">
+   Functions
   </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="functions/adding-udfs.html">
+     Adding User Defined Functions: Scalar/Window/Aggregate/Table Functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="functions/spark.html">
+     Spark Compatible Functions
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Custom Table Provider
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="table-constraints.html">
+   Table Constraint Enforcement
   </a>
  </li>
  <li class="toctree-l1">
@@ -380,11 +402,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="query-optimizer.html">
    DataFusion Query Optimizer
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="upgrading.html">
-   Upgrade Guides
   </a>
  </li>
 </ul>
@@ -448,8 +465,8 @@
   <a class="reference internal" href="../contributor-guide/specification/index.html">
    Specifications
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
-  <label for="toctree-checkbox-3">
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -638,14 +655,16 @@
 -->
 <section id="custom-table-provider">
 <h1>Custom Table Provider<a class="headerlink" href="#custom-table-provider" title="Link to this heading">¶</a></h1>
-<p>Like other areas of DataFusion, you extend DataFusion’s functionality by implementing a trait. The <code class="docutils literal notranslate"><span class="pre">TableProvider</span></code> and associated traits, have methods that allow you to implement a custom table provider, i.e. use DataFusion’s other functionality with your custom data source.</p>
-<p>This section will also touch on how to have DataFusion use the new <code class="docutils literal notranslate"><span class="pre">TableProvider</span></code> implementation.</p>
+<p>Like other areas of DataFusion, you extend DataFusion’s functionality by implementing a trait. The <a class="reference external" href="https://docs.rs/datafusion/latest/datafusion/datasource/trait.TableProvider.html"><code class="docutils literal notranslate"><span class="pre">TableProvider</span></code></a> and associated traits allow you to implement a custom table provider, i.e. use DataFusion’s other functionality with your custom data source.</p>
+<p>This section describes how to create a <a class="reference external" href="https://docs.rs/datafusion/latest/datafusion/datasource/trait.TableProvider.html"><code class="docutils literal notranslate"><span class="pre">TableProvider</span></code></a> and how to configure DataFusion to use it for reading.</p>
+<p>For details on how table constraints such as primary keys or unique
+constraints are handled, see <a class="reference internal" href="table-constraints.html"><span class="std std-doc">Table Constraint Enforcement</span></a>.</p>
 <section id="table-provider-and-scan">
 <h2>Table Provider and Scan<a class="headerlink" href="#table-provider-and-scan" title="Link to this heading">¶</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">scan</span></code> method on the <code class="docutils literal notranslate"><span class="pre">TableProvider</span></code> is likely its most important. It returns an <code class="docutils literal notranslate"><span class="pre">ExecutionPlan</span></code> that DataFusion will use to read the actual data during execution of the query.</p>
+<p>The <a class="reference external" href="https://docs.rs/datafusion/latest/datafusion/datasource/trait.TableProvider.html#tymethod.scan"><code class="docutils literal notranslate"><span class="pre">TableProvider::scan</span></code></a> method reads data from the table and is likely the most important. It returns an <a class="reference external" href="https://docs.rs/datafusion/latest/datafusion/physical_plan/trait.ExecutionPlan.html"><code class="docutils literal notranslate"><span class="pre">ExecutionPlan</span></code></a> that DataFusion will use to read the actual data during execution of the query. The <a class="reference external" href="https://docs.rs/datafusion/latest/datafusion/datasource/trait.TableProvider.html#tymethod.insert_into"><code class="docutils literal notranslate"><span class="pre">TableProvider::insert_into</span></code></a> method is used to <code class="docutils literal notranslate"><span class="pre">INSERT</span></code> data into the table.</p>
 <section id="scan">
 <h3>Scan<a class="headerlink" href="#scan" title="Link to this heading">¶</a></h3>
-<p>As mentioned, <code class="docutils literal notranslate"><span class="pre">scan</span></code> returns an execution plan, and in particular a <code class="docutils literal notranslate"><span class="pre">Result&lt;Arc&lt;dyn</span> <span class="pre">ExecutionPlan&gt;&gt;</span></code>. The core of this is returning something that can be dynamically dispatched to an <code class="docutils literal notranslate"><span class="pre">ExecutionPlan</span></code>. And as per the general DataFusion idea, we’ll need to implement it.</p>
+<p>As mentioned, <a class="reference external" href="https://docs.rs/datafusion/latest/datafusion/datasource/trait.TableProvider.html#tymethod.scan"><code class="docutils literal notranslate"><span class="pre">TableProvider::scan</span></code></a> returns an execution plan, and in particular a <code class="docutils literal notranslate"><span class="pre">Result&lt;Arc&lt;dyn</span> <span class="pre">ExecutionPlan&gt;&gt;</span></code>. The core of this is returning something that can be dynamically dispatched to an <code class="docutils literal notranslate"><span class="pre">ExecutionPlan</span></code>. And as per the general DataFusion idea, we’ll need to implement it.</p>
 <section id="execution-plan">
 <h4>Execution Plan<a class="headerlink" href="#execution-plan" title="Link to this heading">¶</a></h4>
 <p>The <code class="docutils literal notranslate"><span class="pre">ExecutionPlan</span></code> trait at its core is a way to get a stream of batches. The aptly-named <code class="docutils literal notranslate"><span class="pre">execute</span></code> method returns a <code class="docutils literal notranslate"><span class="pre">Result&lt;SendableRecordBatchStream&gt;</span></code>, which should be a stream of <code class="docutils literal notranslate"><span class="pre">RecordBatch</span></code>es that can be sent across threads, and has a schema that matches the data to be contained in those batches.</p>
@@ -902,17 +921,17 @@
               
               <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="adding-udfs.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="functions/spark.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Adding User Defined Functions: Scalar/Window/Aggregate/Table Functions</p>
+            <p class="prev-next-title">Spark Compatible Functions</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="extending-operators.html" title="next page">
+    <a class='right-next' id="next-link" href="table-constraints.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Extending DataFusion’s operators: custom LogicalPlan and Execution Plans</p>
+        <p class="prev-next-title">Table Constraint Enforcement</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

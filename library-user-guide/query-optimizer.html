@@ -33,7 +33,7 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Upgrade Guides" href="upgrading.html" />
+    <link rel="next" title="Introduction" href="../contributor-guide/index.html" />
     <link rel="prev" title="Profiling Cookbook" href="profiling.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
@@ -278,8 +278,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../user-guide/sql/write_options.html">
-     Write Options
+    <a class="reference internal" href="../user-guide/sql/format_options.html">
+     Format Options
     </a>
    </li>
    <li class="toctree-l2">
@@ -292,11 +292,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../user-guide/configs.html">
    Configuration Settings
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../user-guide/runtime_configs.html">
-   Runtime Environment Configurations
   </a>
  </li>
  <li class="toctree-l1">
@@ -319,6 +314,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="index.html">
    Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="upgrading.html">
+   Upgrade Guides
   </a>
  </li>
  <li class="toctree-l1">
@@ -357,14 +357,36 @@
    Catalogs, Schemas, and Tables
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="adding-udfs.html">
-   Adding User Defined Functions: Scalar/Window/Aggregate/Table Functions
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="functions/index.html">
+   Functions
   </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="functions/adding-udfs.html">
+     Adding User Defined Functions: Scalar/Window/Aggregate/Table Functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="functions/spark.html">
+     Spark Compatible Functions
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="custom-table-providers.html">
    Custom Table Provider
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="table-constraints.html">
+   Table Constraint Enforcement
   </a>
  </li>
  <li class="toctree-l1">
@@ -380,11 +402,6 @@
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    DataFusion Query Optimizer
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="upgrading.html">
-   Upgrade Guides
   </a>
  </li>
 </ul>
@@ -448,8 +465,8 @@
   <a class="reference internal" href="../contributor-guide/specification/index.html">
    Specifications
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
-  <label for="toctree-checkbox-3">
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -807,7 +824,7 @@ displayed the same as <code class="docutils literal notranslate"><span class="pr
 </div>
 <p>Looking at the <code class="docutils literal notranslate"><span class="pre">EXPLAIN</span></code> output we can see that the optimizer has effectively rewritten <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">+</span> <span class="pre">2</span></code> into effectively
 <code class="docutils literal notranslate"><span class="pre">3</span> <span class="pre">as</span> <span class="pre">&quot;1</span> <span class="pre">+</span> <span class="pre">2&quot;</span></code>:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&gt; explain select 1 + 2;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&gt; explain format indent select 1 + 2;
 +---------------+-------------------------------------------------+
 | plan_type     | plan                                            |
 +---------------+-------------------------------------------------+
@@ -1097,10 +1114,10 @@ take.</p>
             <p class="prev-next-title">Profiling Cookbook</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="upgrading.html" title="next page">
+    <a class='right-next' id="next-link" href="../contributor-guide/index.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Upgrade Guides</p>
+        <p class="prev-next-title">Introduction</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

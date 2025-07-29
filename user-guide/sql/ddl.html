@@ -278,8 +278,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="write_options.html">
-     Write Options
+    <a class="reference internal" href="format_options.html">
+     Format Options
     </a>
    </li>
    <li class="toctree-l2">
@@ -292,11 +292,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../configs.html">
    Configuration Settings
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../runtime_configs.html">
-   Runtime Environment Configurations
   </a>
  </li>
  <li class="toctree-l1">
@@ -319,6 +314,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../../library-user-guide/index.html">
    Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../library-user-guide/upgrading.html">
+   Upgrade Guides
   </a>
  </li>
  <li class="toctree-l1">
@@ -357,14 +357,36 @@
    Catalogs, Schemas, and Tables
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../../library-user-guide/adding-udfs.html">
-   Adding User Defined Functions: Scalar/Window/Aggregate/Table Functions
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../library-user-guide/functions/index.html">
+   Functions
   </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../library-user-guide/functions/adding-udfs.html">
+     Adding User Defined Functions: Scalar/Window/Aggregate/Table Functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../library-user-guide/functions/spark.html">
+     Spark Compatible Functions
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../../library-user-guide/custom-table-providers.html">
    Custom Table Provider
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../library-user-guide/table-constraints.html">
+   Table Constraint Enforcement
   </a>
  </li>
  <li class="toctree-l1">
@@ -380,11 +402,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../../library-user-guide/query-optimizer.html">
    DataFusion Query Optimizer
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../../library-user-guide/upgrading.html">
-   Upgrade Guides
   </a>
  </li>
 </ul>
@@ -448,8 +465,8 @@
   <a class="reference internal" href="../../contributor-guide/specification/index.html">
    Specifications
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
-  <label for="toctree-checkbox-3">
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -543,9 +560,55 @@
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#cautions-when-using-the-with-order-clause">
-     Cautions when using the WITH ORDER Clause
+    <a class="reference internal nav-link" href="#example-parquet">
+     Example: Parquet
     </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-comma-separated-value-csv">
+     Example: Comma Separated Value (CSV)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-compression">
+     Example: Compression
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-specifying-schema">
+     Example: Specifying Schema
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-partitioned-tables">
+     Example: Partitioned Tables
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-unbounded-data-sources">
+     Example: Unbounded Data Sources
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-with-order-clause">
+     Example:
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       WITH
+      </span>
+      <span class="pre">
+       ORDER
+      </span>
+     </code>
+     Clause
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#cautions-when-using-the-with-order-clause">
+       Cautions when using the WITH ORDER Clause
+      </a>
+     </li>
+    </ul>
    </li>
   </ul>
  </li>
@@ -568,6 +631,28 @@
   <a class="reference internal nav-link" href="#drop-view">
    DROP VIEW
   </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#describe">
+   DESCRIBE
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-basic-table-description">
+     Example: Basic table description
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-using-desc-alias">
+     Example: Using DESC alias
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-describing-external-tables">
+     Example: Describing external tables
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -664,11 +749,13 @@ file system or remote object store as a named table which can be queried.</p>
 <span class="o">&lt;</span><span class="n">key_value_list</span><span class="o">&gt;</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">literal</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">literal</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="n">literal</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">literal</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span>
 </pre></div>
 </div>
-<p>For a detailed list of write related options which can be passed in the OPTIONS key_value_list, see <a class="reference internal" href="write_options.html"><span class="doc std std-doc">Write Options</span></a>.</p>
+<p>For a comprehensive list of format-specific options that can be specified in the <code class="docutils literal notranslate"><span class="pre">OPTIONS</span></code> clause, see <a class="reference internal" href="format_options.html"><span class="std std-doc">Format Options</span></a>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">file_type</span></code> is one of <code class="docutils literal notranslate"><span class="pre">CSV</span></code>, <code class="docutils literal notranslate"><span class="pre">ARROW</span></code>, <code class="docutils literal notranslate"><span class="pre">PARQUET</span></code>, <code class="docutils literal notranslate"><span class="pre">AVRO</span></code> or <code class="docutils literal notranslate"><span class="pre">JSON</span></code></p>
 <p><code class="docutils literal notranslate"><span class="pre">LOCATION</span> <span class="pre">&lt;literal&gt;</span></code> specifies the location to find the data. It can be
 a path to a file or directory of partitioned files locally or on an
 object store.</p>
+<section id="example-parquet">
+<h3>Example: Parquet<a class="headerlink" href="#example-parquet" title="Link to this heading">¶</a></h3>
 <p>Parquet data sources can be registered by executing a <code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">EXTERNAL</span> <span class="pre">TABLE</span></code> SQL statement such as the following. It is not necessary to
 provide schema information for Parquet files.</p>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">EXTERNAL</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">taxi</span>
@@ -676,6 +763,24 @@ provide schema information for Parquet files.</p>
 <span class="k">LOCATION</span><span class="w"> </span><span class="s1">&#39;/mnt/nyctaxi/tripdata.parquet&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple myst">
+<dt>Statistics</dt><dd><p>By default, when a table is created, DataFusion will read the files
+to gather statistics, which can be expensive but can accelerate subsequent
+queries substantially. If you don’t want to gather statistics
+when creating a table, set the <code class="docutils literal notranslate"><span class="pre">datafusion.execution.collect_statistics</span></code>
+configuration option to <code class="docutils literal notranslate"><span class="pre">false</span></code> before creating the table. For example:</p>
+</dd>
+</dl>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SET</span><span class="w"> </span><span class="n">datafusion</span><span class="p">.</span><span class="n">execution</span><span class="p">.</span><span class="n">collect_statistics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>See the <a class="reference internal" href="../configs.html"><span class="std std-doc">config settings docs</span></a> for more details.</p>
+</div>
+</section>
+<section id="example-comma-separated-value-csv">
+<h3>Example: Comma Separated Value (CSV)<a class="headerlink" href="#example-comma-separated-value-csv" title="Link to this heading">¶</a></h3>
 <p>CSV data sources can also be registered by executing a <code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">EXTERNAL</span> <span class="pre">TABLE</span></code> SQL statement. The schema will be inferred based on
 scanning a subset of the file.</p>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">EXTERNAL</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">test</span>
@@ -684,6 +789,9 @@ scanning a subset of the file.</p>
 <span class="k">OPTIONS</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;has_header&#39;</span><span class="w"> </span><span class="s1">&#39;true&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
+</section>
+<section id="example-compression">
+<h3>Example: Compression<a class="headerlink" href="#example-compression" title="Link to this heading">¶</a></h3>
 <p>It is also possible to use compressed files, such as <code class="docutils literal notranslate"><span class="pre">.csv.gz</span></code>:</p>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">EXTERNAL</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">test</span>
 <span class="n">STORED</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">CSV</span>
@@ -692,6 +800,9 @@ scanning a subset of the file.</p>
 <span class="k">OPTIONS</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;has_header&#39;</span><span class="w"> </span><span class="s1">&#39;true&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
+</section>
+<section id="example-specifying-schema">
+<h3>Example: Specifying Schema<a class="headerlink" href="#example-specifying-schema" title="Link to this heading">¶</a></h3>
 <p>It is also possible to specify the schema manually.</p>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">EXTERNAL</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">test</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">c1</span><span class="w">  </span><span class="nb">VARCHAR</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
@@ -713,6 +824,9 @@ scanning a subset of the file.</p>
 <span class="k">OPTIONS</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;has_header&#39;</span><span class="w"> </span><span class="s1">&#39;true&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
+</section>
+<section id="example-partitioned-tables">
+<h3>Example: Partitioned Tables<a class="headerlink" href="#example-partitioned-tables" title="Link to this heading">¶</a></h3>
 <p>It is also possible to specify a directory that contains a partitioned
 table (multiple files with the same schema)</p>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="k">EXTERNAL</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">test</span>
@@ -721,13 +835,19 @@ table (multiple files with the same schema)</p>
 <span class="k">OPTIONS</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;has_header&#39;</span><span class="w"> </span><span class="s1">&#39;true&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>With <code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">UNBOUNDED</span> <span class="pre">EXTERNAL</span> <span class="pre">TABLE</span></code> SQL statement. We can create unbounded data sources such as following:</p>
+</section>
+<section id="example-unbounded-data-sources">
+<h3>Example: Unbounded Data Sources<a class="headerlink" href="#example-unbounded-data-sources" title="Link to this heading">¶</a></h3>
+<p>We can create unbounded data sources using the <code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">UNBOUNDED</span> <span class="pre">EXTERNAL</span> <span class="pre">TABLE</span></code> SQL statement.</p>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span><span class="w"> </span><span class="n">UNBOUNDED</span><span class="w"> </span><span class="k">EXTERNAL</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">taxi</span>
 <span class="n">STORED</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">PARQUET</span>
 <span class="k">LOCATION</span><span class="w"> </span><span class="s1">&#39;/mnt/nyctaxi/tripdata.parquet&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>Note that this statement actually reads data from a fixed-size file, so a better example would involve reading from a FIFO file. Nevertheless, once Datafusion sees the <code class="docutils literal notranslate"><span class="pre">UNBOUNDED</span></code> keyword in a data source, it tries to execute queries that refer to this unbounded source in streaming fashion. If this is not possible according to query specifications, plan generation fails stating it is not possible to execute given query in streaming fashion. Note that queries that can run with unbounded sources (i.e. in streaming mode) are a subset of those that can with bounded sources. A query that fails with unbounded source(s) may work with bounded source(s).</p>
+</section>
+<section id="example-with-order-clause">
+<h3>Example: <code class="docutils literal notranslate"><span class="pre">WITH</span> <span class="pre">ORDER</span></code> Clause<a class="headerlink" href="#example-with-order-clause" title="Link to this heading">¶</a></h3>
 <p>When creating an output from a data source that is already ordered by
 an expression, you can pre-specify the order of the data using the
 <code class="docutils literal notranslate"><span class="pre">WITH</span> <span class="pre">ORDER</span></code> clause. This applies even if the expression used for
@@ -760,7 +880,7 @@ sorting is complex, allowing for greater flexibility.</p>
 </pre></div>
 </div>
 <section id="cautions-when-using-the-with-order-clause">
-<h3>Cautions when using the WITH ORDER Clause<a class="headerlink" href="#cautions-when-using-the-with-order-clause" title="Link to this heading">¶</a></h3>
+<h4>Cautions when using the WITH ORDER Clause<a class="headerlink" href="#cautions-when-using-the-with-order-clause" title="Link to this heading">¶</a></h4>
 <ul class="simple">
 <li><p>It’s important to understand that using the <code class="docutils literal notranslate"><span class="pre">WITH</span> <span class="pre">ORDER</span></code> clause in the <code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">EXTERNAL</span> <span class="pre">TABLE</span></code> statement only specifies the order in which the data should be read from the external file. If the data in the file is not already sorted according to the specified order, then the results may not be correct.</p></li>
 <li><p>It’s also important to note that the <code class="docutils literal notranslate"><span class="pre">WITH</span> <span class="pre">ORDER</span></code> clause does not affect the ordering of the data in the original external file.</p></li>
@@ -777,6 +897,7 @@ sorting is complex, allowing for greater flexibility.</p>
 <span class="k">LOCATION</span><span class="w"> </span><span class="s1">&#39;/mnt/nyctaxi&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
+</section>
 </section>
 </section>
 <section id="create-table">
@@ -846,6 +967,76 @@ DROP VIEW [ IF EXISTS ] <b><i>view_name</i></b>;
 <span class="k">DROP</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">customer_a</span><span class="p">.</span><span class="n">users_v</span><span class="p">;</span>
 </pre></div>
 </div>
+</section>
+<section id="describe">
+<h2>DESCRIBE<a class="headerlink" href="#describe" title="Link to this heading">¶</a></h2>
+<p>Displays the schema of a table, showing column names, data types, and nullable status. Both <code class="docutils literal notranslate"><span class="pre">DESCRIBE</span></code> and <code class="docutils literal notranslate"><span class="pre">DESC</span></code> are supported as aliases.</p>
+<pre>
+{ DESCRIBE | DESC } <b><i>table_name</i></b>
+</pre>
+<p>The output contains three columns:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">column_name</span></code>: The name of the column</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data_type</span></code>: The data type of the column (e.g., Int32, Utf8, Boolean)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">is_nullable</span></code>: Whether the column can contain null values (YES/NO)</p></li>
+</ul>
+<section id="example-basic-table-description">
+<h3>Example: Basic table description<a class="headerlink" href="#example-basic-table-description" title="Link to this heading">¶</a></h3>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- Create a table</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Alice&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">true</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">false</span><span class="p">);</span>
+
+<span class="c1">-- Describe the table structure</span>
+<span class="k">DESCRIBE</span><span class="w"> </span><span class="n">users</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">--------------+-----------+-------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="k">column_name</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">data_type</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">is_nullable</span><span class="w"> </span><span class="o">|</span>
+<span class="o">+</span><span class="c1">--------------+-----------+-------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="n">column1</span><span class="w">      </span><span class="o">|</span><span class="w"> </span><span class="n">Int64</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="n">YES</span><span class="w">         </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="n">column2</span><span class="w">      </span><span class="o">|</span><span class="w"> </span><span class="n">Utf8</span><span class="w">      </span><span class="o">|</span><span class="w"> </span><span class="n">YES</span><span class="w">         </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="n">column3</span><span class="w">      </span><span class="o">|</span><span class="w"> </span><span class="nb">Boolean</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="n">YES</span><span class="w">         </span><span class="o">|</span>
+<span class="o">+</span><span class="c1">--------------+-----------+-------------+</span>
+</pre></div>
+</div>
+</section>
+<section id="example-using-desc-alias">
+<h3>Example: Using DESC alias<a class="headerlink" href="#example-using-desc-alias" title="Link to this heading">¶</a></h3>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- DESC is an alias for DESCRIBE</span>
+<span class="k">DESC</span><span class="w"> </span><span class="n">users</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-describing-external-tables">
+<h3>Example: Describing external tables<a class="headerlink" href="#example-describing-external-tables" title="Link to this heading">¶</a></h3>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- Create an external table</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">EXTERNAL</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">taxi</span>
+<span class="n">STORED</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">PARQUET</span>
+<span class="k">LOCATION</span><span class="w"> </span><span class="s1">&#39;/mnt/nyctaxi/tripdata.parquet&#39;</span><span class="p">;</span>
+
+<span class="c1">-- Describe its schema</span>
+<span class="k">DESCRIBE</span><span class="w"> </span><span class="n">taxi</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Output might show:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="o">+</span><span class="c1">--------------------+-----------------------------+-------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="k">column_name</span><span class="w">        </span><span class="o">|</span><span class="w"> </span><span class="n">data_type</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="n">is_nullable</span><span class="w"> </span><span class="o">|</span>
+<span class="o">+</span><span class="c1">--------------------+-----------------------------+-------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="n">vendor_id</span><span class="w">          </span><span class="o">|</span><span class="w"> </span><span class="n">Int32</span><span class="w">                       </span><span class="o">|</span><span class="w"> </span><span class="n">YES</span><span class="w">         </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="n">pickup_datetime</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="k">Timestamp</span><span class="p">(</span><span class="n">Nanosecond</span><span class="p">,</span><span class="w"> </span><span class="k">None</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">NO</span><span class="w">          </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="n">passenger_count</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">Int32</span><span class="w">                       </span><span class="o">|</span><span class="w"> </span><span class="n">YES</span><span class="w">         </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="n">trip_distance</span><span class="w">      </span><span class="o">|</span><span class="w"> </span><span class="n">Float64</span><span class="w">                     </span><span class="o">|</span><span class="w"> </span><span class="n">YES</span><span class="w">         </span><span class="o">|</span>
+<span class="o">+</span><span class="c1">--------------------+-----------------------------+-------------+</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">DESCRIBE</span></code> command works with all table types in DataFusion, including:</p>
+<ul class="simple">
+<li><p>Regular tables created with <code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">TABLE</span></code></p></li>
+<li><p>External tables created with <code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">EXTERNAL</span> <span class="pre">TABLE</span></code></p></li>
+<li><p>Views created with <code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">VIEW</span></code></p></li>
+<li><p>Tables in different schemas using qualified names (e.g., <code class="docutils literal notranslate"><span class="pre">DESCRIBE</span> <span class="pre">schema_name.table_name</span></code>)</p></li>
+</ul>
+</section>
 </section>
 </section>
 

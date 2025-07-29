@@ -278,8 +278,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../sql/write_options.html">
-     Write Options
+    <a class="reference internal" href="../sql/format_options.html">
+     Format Options
     </a>
    </li>
    <li class="toctree-l2">
@@ -292,11 +292,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../configs.html">
    Configuration Settings
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../runtime_configs.html">
-   Runtime Environment Configurations
   </a>
  </li>
  <li class="toctree-l1">
@@ -319,6 +314,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../../library-user-guide/index.html">
    Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../library-user-guide/upgrading.html">
+   Upgrade Guides
   </a>
  </li>
  <li class="toctree-l1">
@@ -357,14 +357,36 @@
    Catalogs, Schemas, and Tables
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../../library-user-guide/adding-udfs.html">
-   Adding User Defined Functions: Scalar/Window/Aggregate/Table Functions
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../library-user-guide/functions/index.html">
+   Functions
   </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../library-user-guide/functions/adding-udfs.html">
+     Adding User Defined Functions: Scalar/Window/Aggregate/Table Functions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../library-user-guide/functions/spark.html">
+     Spark Compatible Functions
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../../library-user-guide/custom-table-providers.html">
    Custom Table Provider
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../library-user-guide/table-constraints.html">
+   Table Constraint Enforcement
   </a>
  </li>
  <li class="toctree-l1">
@@ -380,11 +402,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../../library-user-guide/query-optimizer.html">
    DataFusion Query Optimizer
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../../library-user-guide/upgrading.html">
-   Upgrade Guides
   </a>
  </li>
 </ul>
@@ -448,8 +465,8 @@
   <a class="reference internal" href="../../contributor-guide/specification/index.html">
    Specifications
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
-  <label for="toctree-checkbox-3">
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -688,6 +705,9 @@ OPTIONS:
 
 <span class="w">        </span>--mem-pool-type<span class="w"> </span>&lt;MEM_POOL_TYPE&gt;
 <span class="w">            </span>Specify<span class="w"> </span>the<span class="w"> </span>memory<span class="w"> </span>pool<span class="w"> </span><span class="nb">type</span><span class="w"> </span><span class="s1">&#39;greedy&#39;</span><span class="w"> </span>or<span class="w"> </span><span class="s1">&#39;fair&#39;</span>,<span class="w"> </span>default<span class="w"> </span>to<span class="w"> </span><span class="s1">&#39;greedy&#39;</span>
+
+<span class="w">        </span>--top-memory-consumers<span class="w"> </span>&lt;TOP_MEMORY_CONSUMERS&gt;
+<span class="w">            </span>The<span class="w"> </span>number<span class="w"> </span>of<span class="w"> </span>top<span class="w"> </span>memory<span class="w"> </span>consumers<span class="w"> </span>to<span class="w"> </span>display<span class="w"> </span>when<span class="w"> </span>query<span class="w"> </span>fails<span class="w"> </span>due<span class="w"> </span>to<span class="w"> </span>memory<span class="w"> </span>exhaustion.<span class="w"> </span>To<span class="w"> </span>disable<span class="w"> </span>memory<span class="w"> </span>consumer<span class="w"> </span>tracking,<span class="w"> </span><span class="nb">set</span><span class="w"> </span>this<span class="w"> </span>value<span class="w"> </span>to<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">[</span>default:<span class="w"> </span><span class="m">3</span><span class="o">]</span>
 
 <span class="w">    </span>-d,<span class="w"> </span>--disk-limit<span class="w"> </span>&lt;DISK_LIMIT&gt;
 <span class="w">            </span>Available<span class="w"> </span>disk<span class="w"> </span>space<span class="w"> </span><span class="k">for</span><span class="w"> </span>spilling<span class="w"> </span>queries<span class="w"> </span><span class="o">(</span>e.g.<span class="w"> </span><span class="s1">&#39;10g&#39;</span><span class="o">)</span>,<span class="w"> </span>default<span class="w"> </span>to<span class="w"> </span>None<span class="w"> </span><span class="o">(</span>uses<span class="w"> </span>DataFusion<span class="s1">&#39;s default value of &#39;</span>100g<span class="err">&#39;</span><span class="o">)</span>
