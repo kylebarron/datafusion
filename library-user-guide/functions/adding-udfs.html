@@ -195,6 +195,11 @@
      Local Files / Directories
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../user-guide/cli/functions.html">
+     CLI Specific Functions
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1">
@@ -448,7 +453,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../../contributor-guide/roadmap.html">
-   Roadmap
+   Roadmap and Improvement Proposals
   </a>
  </li>
  <li class="toctree-l1">
@@ -776,7 +781,7 @@ For production code, you may want to check, for example, that <code class="docut
 <span class="cp">    description = </span><span class="s">&quot;Add one udf&quot;</span><span class="cp">,</span>
 <span class="cp">    syntax_example = </span><span class="s">&quot;add_one(1)&quot;</span>
 <span class="cp">)]</span>
-<span class="cp">#[derive(Debug)]</span>
+<span class="cp">#[derive(Debug, PartialEq, Eq, Hash)]</span>
 <span class="k">struct</span><span class="w"> </span><span class="nc">AddOne</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="n">signature</span><span class="p">:</span><span class="w"> </span><span class="nc">Signature</span><span class="p">,</span>
 <span class="p">}</span>
@@ -941,7 +946,7 @@ UDF.</p>
 </ol>
 <section id="adding-by-impl-asyncscalarudfimpl">
 <h3>Adding by <code class="docutils literal notranslate"><span class="pre">impl</span> <span class="pre">AsyncScalarUDFImpl</span></code><a class="headerlink" href="#adding-by-impl-asyncscalarudfimpl" title="Link to this heading">¶</a></h3>
-<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="cp">#[derive(Debug)]</span>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="cp">#[derive(Debug, PartialEq, Eq, Hash)]</span>
 <span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">AsyncUpper</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">signature</span><span class="p">:</span><span class="w"> </span><span class="nc">Signature</span><span class="p">,</span>
 <span class="p">}</span>
@@ -1001,13 +1006,11 @@ UDF.</p>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="sd">/// This method is called to execute the async UDF and is similar</span>
-<span class="w">    </span><span class="sd">/// to the normal `invoke_with_args` except it returns an `ArrayRef`</span>
-<span class="w">    </span><span class="sd">/// instead of `ColumnarValue` and is `async`.</span>
+<span class="w">    </span><span class="sd">/// to the normal `invoke_with_args` except it is `async`.</span>
 <span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">invoke_async_with_args</span><span class="p">(</span>
 <span class="w">        </span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span>
 <span class="w">        </span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="nc">ScalarFunctionArgs</span><span class="p">,</span>
-<span class="w">        </span><span class="n">_option</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">ConfigOptions</span><span class="p">,</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="n">ArrayRef</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="n">ColumnarValue</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">args</span><span class="p">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
 <span class="w">        </span><span class="c1">// This function simply implements a simple string to uppercase conversion</span>
 <span class="w">        </span><span class="c1">// but can be used for any async operation such as network calls.</span>
@@ -1022,7 +1025,7 @@ UDF.</p>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">            </span><span class="n">_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">internal_err</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;Expected a string argument, got {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">),</span>
 <span class="w">        </span><span class="p">};</span>
-<span class="w">        </span><span class="nb">Ok</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">Ok</span><span class="p">(</span><span class="n">ColumnarValue</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
