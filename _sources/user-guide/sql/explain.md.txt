@@ -1,20 +1,7 @@
-<!---
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.
+<!--
+SPDX-License-Identifier: Apache-2.0
+SPDX-FileCopyrightText: See the NOTICE file distributed with this work for additional information regarding copyright ownership
+SPDX-FileContributor: Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements
 -->
 
 # EXPLAIN
@@ -36,8 +23,6 @@ Note that `EXPLAIN VERBOSE` only supports the `indent` format.
 The optional `[FORMAT format]` clause controls how the plan is displayed as
 explained below. If this clause is not specified, the plan is displayed using
 the format from the [configuration value] `datafusion.explain.format`.
-
-[configuration value]: ../configs.md
 
 ### `tree` format (default)
 
@@ -72,19 +57,10 @@ to see the high level structure of the plan
 |               | │      RepartitionExec      │ |
 |               | │    --------------------   │ |
 |               | │   input_partition_count:  │ |
-|               | │             16            │ |
-|               | │                           │ |
-|               | │    partitioning_scheme:   │ |
-|               | │      Hash([b@0], 16)      │ |
-|               | └─────────────┬─────────────┘ |
-|               | ┌─────────────┴─────────────┐ |
-|               | │      RepartitionExec      │ |
-|               | │    --------------------   │ |
-|               | │   input_partition_count:  │ |
 |               | │             1             │ |
 |               | │                           │ |
 |               | │    partitioning_scheme:   │ |
-|               | │    RoundRobinBatch(16)    │ |
+|               | │      Hash([b@0], 16)      │ |
 |               | └─────────────┬─────────────┘ |
 |               | ┌─────────────┴─────────────┐ |
 |               | │       AggregateExec       │ |
@@ -128,10 +104,9 @@ Elapsed 0.004 seconds.
 | physical_plan | ProjectionExec: expr=[sum(t.x)@1 as sum(t.x)]                                 |
 |               |   AggregateExec: mode=FinalPartitioned, gby=[b@0 as b], aggr=[sum(t.x)]       |
 |               |     CoalesceBatchesExec: target_batch_size=8192                               |
-|               |       RepartitionExec: partitioning=Hash([b@0], 16), input_partitions=16      |
-|               |         RepartitionExec: partitioning=RoundRobinBatch(16), input_partitions=1 |
-|               |           AggregateExec: mode=Partial, gby=[b@1 as b], aggr=[sum(t.x)]        |
-|               |             DataSourceExec: partitions=1, partition_sizes=[1]                 |
+|               |       RepartitionExec: partitioning=Hash([b@0], 16), input_partitions=1       |
+|               |         AggregateExec: mode=Partial, gby=[b@1 as b], aggr=[sum(t.x)]          |
+|               |           DataSourceExec: partitions=1, partition_sizes=[1]                   |
 |               |                                                                               |
 +---------------+-------------------------------------------------------------------------------+
 2 row(s) fetched.
@@ -239,9 +214,9 @@ Elapsed 0.010 seconds.
 
 ## `EXPLAIN ANALYZE`
 
-Shows the execution plan and metrics of a statement. If you need more
-information output, use `EXPLAIN ANALYZE VERBOSE`. Note that `EXPLAIN ANALYZE`
-only supports the `indent` format.
+Shows the execution plan and metrics of a statement. `EXPLAIN ANALYZE` supports
+the `indent` format (the default) and the [`pgjson`](#pgjson-format-with-analyze)
+format; the `tree` and `graphviz` formats are not supported with `ANALYZE`.
 
 ```sql
 EXPLAIN ANALYZE SELECT SUM(x) FROM table GROUP BY b;
@@ -259,3 +234,51 @@ EXPLAIN ANALYZE SELECT SUM(x) FROM table GROUP BY b;
 |                   |               DataSourceExec: file_groups={1 group: [[/tmp/table.csv]]}, has_header=false, metrics=[]                                                        |
 +-------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
+
+By default `EXPLAIN ANALYZE` shows the aggregated metrics from all partitions for each operator. If you need to display per-partition metrics, use `EXPLAIN ANALYZE VERBOSE`.
+
+You can also set `datafusion.explain.analyze_level` from the [configuration value] to control the detail level for the metrics displayed.
+
+### `pgjson` format with `ANALYZE`
+
+`EXPLAIN ANALYZE` can also emit the physical plan and its live execution
+metrics in the [`pgjson`](#pgjson-format) format, so the analyzed plan can be
+loaded into PostgreSQL plan visualizers such as [dalibo]. Each node reports its
+`Actual Rows` and `Actual Total Time` (compute time, in milliseconds) using the
+PostgreSQL key names, with any remaining DataFusion metrics under `Extras`.
+
+The format can be requested with either the keyword form
+(`EXPLAIN ANALYZE FORMAT pgjson ...`) or, more idiomatically, the PostgreSQL
+[option-list form](../explain-usage.md), which also lets you combine it with the
+`METRICS` and `LEVEL` knobs in a single statement:
+
+```sql
+> CREATE TABLE t(x int, b int) AS VALUES (1, 2), (2, 3);
+> EXPLAIN (ANALYZE, FORMAT pgjson, METRICS 'rows') SELECT x FROM t WHERE b > 2;
++-------------------+---------------------------------------------------------------------------+
+| plan_type         | plan                                                                      |
++-------------------+---------------------------------------------------------------------------+
+| Plan with Metrics | [                                                                         |
+|                   |   {                                                                       |
+|                   |     "Plan": {                                                             |
+|                   |       "Node Type": "FilterExec",                                          |
+|                   |       "Details": "FilterExec: b@1 > 2, projection=[x@0]",                 |
+|                   |       "Actual Rows": 1,                                                   |
+|                   |       "Extras": {                                                         |
+|                   |         "output_batches": 1,                                              |
+|                   |         "selectivity": "50% (1/2)"                                        |
+|                   |       },                                                                  |
+|                   |       "Plans": [                                                          |
+|                   |         {                                                                 |
+|                   |           "Node Type": "DataSourceExec",                                  |
+|                   |           "Details": "DataSourceExec: partitions=1, partition_sizes=[1]", |
+|                   |           "Plans": []                                                     |
+|                   |         }                                                                 |
+|                   |       ]                                                                   |
+|                   |     }                                                                     |
+|                   |   }                                                                       |
+|                   | ]                                                                         |
++-------------------+---------------------------------------------------------------------------+
+```
+
+[configuration value]: ../configs.md
